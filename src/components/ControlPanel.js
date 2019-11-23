@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Selection from "./Selection";
 import Submission from "./Submission";
+import data from "../constants/CourseData";
 
 const classes = [
   { value: "10396", label: "COMP140" },
@@ -23,8 +24,10 @@ function ControlPanel() {
   const [getTerm, setTerm] = useState(terms[0]);
 
   const handleChange1 = selectedOption => {
+
     //api call here
     
+   
     console.log(selectedOption);
     setClass(selectedOption);
   };
