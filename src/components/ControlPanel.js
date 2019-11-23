@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
 import Selection from "./Selection";
+import Submission from "./Submission";
 
 const classes = [
-  { value: "COMP140", label: "COMP140" },
-  { value: "COMP182", label: "COMP182" },
-  { value: "COMP215", label: "COMP215" }
+  { value: "10396", label: "COMP140" },
+  { value: "21510", label: "COMP182" },
+  { value: "12226", label: "COMP215" }
 ];
 const profs = [
   { value: "COMP140", label: "Rixner" },
@@ -13,7 +14,7 @@ const profs = [
 ];
 const terms = [
   { value: "201910", label: "2018 Fall" },
-  { value: "201810", label: "2017 Fall" }
+  { value: "201920", label: "2019 Spring" }
 ];
 
 function ControlPanel() {
@@ -22,6 +23,8 @@ function ControlPanel() {
   const [getTerm, setTerm] = useState(terms[0]);
 
   const handleChange1 = selectedOption => {
+    //api call here
+    
     console.log(selectedOption);
     setClass(selectedOption);
   };
@@ -53,6 +56,11 @@ function ControlPanel() {
         selected={getTerm}
         show={true}
         handleChange={handleChange3}
+      />
+      <Submission
+        CRN = {getClass.value}
+        term = {getTerm.value}
+        show = {true}
       />
     </div>
   );
