@@ -18,53 +18,87 @@ const terms = [
   { value: "201920", label: "2019 Spring" }
 ];
 
-function ControlPanel() {
-  const [getClass, setClass] = useState(classes[0]);
-  const [getProf, setProf] = useState(profs[0]);
-  const [getTerm, setTerm] = useState(terms[0]);
+function ControlPanel({courseToNumbers}) {
 
-  const handleChange1 = selectedOption => {
+  const subjects = Object.keys(courseToNumbers).map( key => {
+        return {value: key, label: key}
+    })
+    const [getCrnForSelectedTerm, setCrnForSelectedTerm] = useState([]);
+    const [getTermsForSelectedCourse, setTermsForSelectedCourse] = useState([]);
+    const [getCodesForSelectedSubject, setCodesForSelectedSubject] = useState([]);
+  const [getSubject, setSubject] = useState(subjects[0]);
+  const [getCode, setCode] = useState({value: 0, label: "Not Selected"});
+  const [getTerm, setTerm] = useState({value: 0, label: "Not Selected"});
+    const [getCrn, setCrn] = useState({value: 0, label: "Not Selected"});
 
-    //api call here
+
+
+    const handleSubjectChange = selectedOption => {
+
+        setCodesForSelectedSubject(Object.keys(courseToNumbers[selectedOption["label"]]).map( key => {
+            return {value: key, label: key}
+        }))
+
+        setSubject(selectedOption);
+        setCode({value: 1, label: "Not Selected"});
+        setTerm({value: 0, label: "Not Selected"});
+    };
+    const handleCodeChange = selectedOption => {
+
+        setTermsForSelectedCourse(Object.keys(courseToNumbers[getSubject["label"]][selectedOption["label"]]).map( key => {
+            return {value: key, label: key}
+        }))
+        setCode(selectedOption);
+        setTerm({value: 1, label: "Not Selected"})
+
+    };
     
-   
-    console.log(selectedOption);
-    setClass(selectedOption);
-  };
-  const handleChange2 = selectedOption => {
-    console.log(selectedOption);
-    setProf(selectedOption);
-  };
-  const handleChange3 = selectedOption => {
-    console.log(selectedOption);
-    setTerm(selectedOption);
-  };
+    const handleTermChange = selectedOption => {
+        let crnArr = Object.keys(courseToNumbers[getSubject["label"]][getCode["label"]][selectedOption["label"]])
+        setCrnForSelectedTerm(crnArr.map( (idx) => {
+            let value = crnArr[idx]
+            return {value: value, label: idx}
+        }))
+        setTerm(selectedOption);
+        setCrn({value: 1, label: "Not Selected"})
+    };
+    const handleCrnChange = selectedOption => {
+        setCrn(selectedOption)
+    }
 
   return (
     <div className="App">
       <Selection
-        options={classes}
-        selected={getClass}
+        options={subjects}
+        selected={getSubject}
         show={true}
-        handleChange={handleChange1}
+        handleChange={handleSubjectChange}
       />
       <Selection
-        options={profs}
-        selected={getProf}
-        show={true}
-        handleChange={handleChange2}
+        options={getCodesForSelectedSubject}
+        selected={getCode}
+        show={getCode.value != 0 }
+        handleChange={handleCodeChange}
       />
       <Selection
-        options={terms}
+        options={getTermsForSelectedCourse}
         selected={getTerm}
-        show={true}
-        handleChange={handleChange3}
+        show={getTerm.value != 0 }
+        handleChange={handleTermChange}
       />
-      <Submission
-        CRN = {getClass.value}
-        term = {getTerm.value}
-        show = {true}
-      />
+        <Selection
+            options={getCrnForSelectedTerm}
+            selected={getCrn }
+            show={getCrn.value != 0 }
+            handleChange={handleCrnChange}
+        />
+
+      {/*<Submission*/}
+      {/*  CRN = {getClass.value}*/}
+      {/*  term = {getTerm.value}*/}
+      {/*  show = {true}*/}
+      {/*/>*/}
+
     </div>
   );
 }
