@@ -68,6 +68,7 @@ function ControlPanel() {
         show={true}
         handleChange={handleChangeTerm}
       />
+
       <Submission
         CRN = { getTerm ? getTerm.value.crn : ""}
         term = {getTerm ? getTerm.value.term_code : ""}
