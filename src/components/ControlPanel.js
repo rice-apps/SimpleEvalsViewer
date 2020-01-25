@@ -3,35 +3,16 @@ import Selection from "./Selection";
 import Submission from "./Submission";
 import {getDeptClasses} from "../constants/Courses";
 import {depts} from "../constants/Departments";
-
-
-// const classes = [
-//   { value: "10396", label: "COMP140" },
-//   { value: "21510", label: "COMP182" },
-//   { value: "12226", label: "COMP215" }
-// ];
-// const depts = [
-//   { value: "COMP140", label: "Rixner" },
-//   { value: "COMP182", label: "Luay" },
-//   { value: "COMP215", label: "Wallach" }
-// ];
-const terms = [
-  { value: "201910", label: "2018 Fall" },
-  { value: "201920", label: "2019 Spring" }
-];
-
-/*
-{label: "Term, CRN, instructor (information about this instance of the course",
-value: {CRN: sodflksadfj, term_code: ;alsdkjf;ads } }
-*/
+import {generateTerms} from "../utils/TermUtility";
 
 const dummy = {label:"", value:""};
 
 function ControlPanel() {
   const [getDept, setDept] = useState(depts[0]);
-  const [getClasses, setClasses] = useState(getDeptClasses(depts[0].label))
+  const [getClasses, setClasses] = useState(getDeptClasses(depts[0].label));
   const [getClass, setClass] = useState(dummy);
   const [getTerm, setTerm] = useState(dummy);
+  const [getTerms, setTerms] = useState(dummy);
 
   const handleChangeDept = selectedOption => {
     console.log(selectedOption);
@@ -43,8 +24,13 @@ function ControlPanel() {
   const handleChangeClass = selectedOption => {
 
     //api call here
-    
    
+    let termsList = generateTerms(selectedOption.label);
+    console.log("**************")
+    console.log(termsList);
+    setTerms(termsList);
+    setTerm(termsList[0] ? termsList[0] : dummy)
+
     console.log(selectedOption);
     setClass(selectedOption);
   };
@@ -70,14 +56,14 @@ function ControlPanel() {
       />
       
       <Selection
-        options={terms}
+        options={getTerms}
         selected={getTerm}
         show={true}
         handleChange={handleChangeTerm}
       />
       <Submission
-        CRN = {getClass.value}
-        term = {getTerm.value}
+        CRN = {getTerm.value.crn}
+        term = {getTerm.value.term_code}
         show = {true}
       />
     </div>

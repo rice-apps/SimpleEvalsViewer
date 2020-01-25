@@ -4,7 +4,7 @@ import Select from "react-select";
 function Selection({ options, selected, show, handleChange }) {
   if (show) {
     return (
-      <div style={{ width: "200px" }}>
+      <div style={{ width: "50%" }}>
         <Select value={selected} onChange={handleChange} options={options} />
       </div>
     );
