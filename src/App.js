@@ -9,25 +9,24 @@ import Submission from "./components/Submission";
 import data from "./data/CourseData.json";
 
 function App() {
-  
   // COMP -> 140 -> Fall 2019 -> Rixner
-  var courseToNumbers = {}
+  var courseToNumbers = {};
 
   for (let key in data) {
     let [subject, number] = key.split(" ");
     if (!(subject in courseToNumbers)) {
-      courseToNumbers[subject] = {}
+      courseToNumbers[subject] = {};
     }
     if (!(number in courseToNumbers[subject])) {
-      courseToNumbers[subject][number] = {}
+      courseToNumbers[subject][number] = {};
     }
-    
+
     for (let term in data[key]) {
       if (!(term in courseToNumbers[subject][number])) {
-        courseToNumbers[subject][number][term] = []
+        courseToNumbers[subject][number][term] = [];
       }
       for (let crnObject of data[key][term]) {
-        courseToNumbers[subject][number][term].push(crnObject["crn"]);
+        courseToNumbers[subject][number][term].push(crnObject);
       }
     }
   }
@@ -37,7 +36,7 @@ function App() {
   return (
     <div className="App">
       <Title />
-      <ControlPanel courseToNumbers = {courseToNumbers}/>
+      <ControlPanel courseToNumbers={courseToNumbers} />
     </div>
   );
 }
