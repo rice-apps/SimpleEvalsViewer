@@ -20,50 +20,67 @@ const terms = [
 
 function ControlPanel({courseToNumbers}) {
 
-  const subjects = Object.keys(courseToNumbers).map( key => {
+    const subjects = Object.keys(courseToNumbers).map( key => {
         return {value: key, label: key}
-    })
+    });
+    
     const [getCrnForSelectedTerm, setCrnForSelectedTerm] = useState([]);
     const [getTermsForSelectedCourse, setTermsForSelectedCourse] = useState([]);
     const [getCodesForSelectedSubject, setCodesForSelectedSubject] = useState([]);
-  const [getSubject, setSubject] = useState(subjects[0]);
-  const [getCode, setCode] = useState({value: 0, label: "Not Selected"});
-  const [getTerm, setTerm] = useState({value: 0, label: "Not Selected"});
+    const [getSubject, setSubject] = useState(subjects[0]);
+
+    const [getCode, setCode] = useState({value: 0, label: "Not Selected"});
+    const [getTerm, setTerm] = useState({value: 0, label: "Not Selected"});
     const [getCrn, setCrn] = useState({value: 0, label: "Not Selected"});
 
 
-
     const handleSubjectChange = selectedOption => {
-
         setCodesForSelectedSubject(Object.keys(courseToNumbers[selectedOption["label"]]).map( key => {
             return {value: key, label: key}
         }))
 
+        // Set subject to selected
         setSubject(selectedOption);
+
+        // Reset code to display, reset term but do not display
         setCode({value: 1, label: "Not Selected"});
         setTerm({value: 0, label: "Not Selected"});
+        setCrn({value: 0, label: "Not Selected"});
     };
-    const handleCodeChange = selectedOption => {
 
+    const handleCodeChange = selectedOption => {
         setTermsForSelectedCourse(Object.keys(courseToNumbers[getSubject["label"]][selectedOption["label"]]).map( key => {
             return {value: key, label: key}
         }))
-        setCode(selectedOption);
-        setTerm({value: 1, label: "Not Selected"})
 
+        // Set code to selected
+        setCode(selectedOption);
+
+        // Reset term to display
+        setTerm({value: 1, label: "Not Selected"});
+        setCrn({value: 0, label: "Not Selected"});
     };
     
     const handleTermChange = selectedOption => {
-        let crnArr = Object.keys(courseToNumbers[getSubject["label"]][getCode["label"]][selectedOption["label"]])
-        setCrnForSelectedTerm(crnArr.map( (idx) => {
-            let value = crnArr[idx]
+        // CRNs came in as array
+        let crnArr = courseToNumbers[getSubject["label"]][getCode["label"]][selectedOption["label"]];
+
+        // Map through each CRN
+        setCrnForSelectedTerm(crnArr.map( (crn, idx) => {
+            let value = crn;
             return {value: value, label: idx}
-        }))
+        }));
+
+        // Set term to selected
         setTerm(selectedOption);
-        setCrn({value: 1, label: "Not Selected"})
+        
+        // Reset CRN to display
+        setCrn({value: 1, label: "Not Selected"});
     };
+
     const handleCrnChange = selectedOption => {
-        setCrn(selectedOption)
+        console.log(selectedOption);
+        setCrn(selectedOption);
     }
 
   return (
@@ -86,18 +103,18 @@ function ControlPanel({courseToNumbers}) {
         show={getTerm.value != 0 }
         handleChange={handleTermChange}
       />
-        <Selection
-            options={getCrnForSelectedTerm}
-            selected={getCrn }
-            show={getCrn.value != 0 }
-            handleChange={handleCrnChange}
-        />
+      <Selection
+          options={getCrnForSelectedTerm}
+          selected={getCrn}
+          show={getCrn.value != 0 }
+          handleChange={handleCrnChange}
+      />
 
-      {/*<Submission*/}
-      {/*  CRN = {getClass.value}*/}
-      {/*  term = {getTerm.value}*/}
-      {/*  show = {true}*/}
-      {/*/>*/}
+      <Submission
+       CRN = {getCrn.value}
+       term = {getTerm.value}
+       show = {true}
+      />
 
     </div>
   );

@@ -38,12 +38,6 @@ function App() {
     <div className="App">
       <Title />
       <ControlPanel courseToNumbers = {courseToNumbers}/>
-      
-      <Submission
-        CRN = {"10396"}
-        term = {"201910"}
-        show = {true}
-      />
     </div>
   );
 }
