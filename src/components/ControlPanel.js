@@ -19,7 +19,14 @@ function ControlPanel() {
     setDept(selectedOption);
     let classes = getDeptClasses(selectedOption.label)
     setClasses(classes)
-    setClass(classes[0] ? classes[0] : dummy)
+    if (classes.length){
+      handleChangeClass(classes[0])
+    } else {
+      setClass(dummy)
+      setTerms([])
+      setTerm(null)
+
+    }
   };
   const handleChangeClass = selectedOption => {
 
@@ -62,8 +69,8 @@ function ControlPanel() {
         handleChange={handleChangeTerm}
       />
       <Submission
-        CRN = {getTerm.value.crn}
-        term = {getTerm.value.term_code}
+        CRN = { getTerm ? getTerm.value.crn : ""}
+        term = {getTerm ? getTerm.value.term_code : ""}
         show = {true}
       />
     </div>

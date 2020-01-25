@@ -11,7 +11,7 @@ const getDeptClasses = dept => {
     console.log(keys);
     console.log(dept);
     return keys.map(key => {
-        return {label: key, value:"1"}
+        return {label: key, value: key}
     });
 }
 
