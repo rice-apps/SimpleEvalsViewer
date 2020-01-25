@@ -9,6 +9,9 @@ function Submission({ CRN, term, show }) {
   console.log(CRN);
   console.log(term);
   // Adjust the year
+  useEffect(()=>{
+    document.getElementById(CRN).submit();
+  },[CRN])
   if (split_term[0] == "Fall") {
     term_value = parseInt(Number(split_term[1]) + 1) + "10";
   } else {
@@ -28,7 +31,7 @@ function Submission({ CRN, term, show }) {
           <input type="hidden" name="p_term" value={term_value} />
           <input type="hidden" name="p_type" value="Course" />
           <input type="hidden" name="p_crn" value={CRN} />
-          <input type="submit" value="Submit" />
+
         </form>
         <iframe height="100%" width="100%" name="iframe1" src=""></iframe>
       </div>

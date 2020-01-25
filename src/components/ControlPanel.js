@@ -126,7 +126,7 @@ function ControlPanel({ courseToNumbers }) {
         handleChange={handleCodeChange}
       />
       <TabSelector array={getSection} newIFrame={newIframe} />
-      <Submission CRN={getCrn} term={getTerm} show={true} />
+      
     </div>
   );
 }

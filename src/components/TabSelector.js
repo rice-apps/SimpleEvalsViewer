@@ -28,7 +28,9 @@ export default function TabSelector({ array, newIFrame }) {
               " " +
               elem["termName"].slice(elem["termName"].length - 2)
             }
-          />
+          >
+            <Submission CRN={elem["crn"]} term={elem["termName"]} show={true} />
+          </TabPane>
         ))}
       </Tabs>
     </div>
