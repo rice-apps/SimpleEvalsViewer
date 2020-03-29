@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Selection from "./Selection";
 import Submission from "./Submission";
-import {getDeptClasses} from "../constants/Courses";
+import {getDeptClasses} from "../utils/CourseUtility";
 import {generateTerms} from "../utils/TermUtility";
 
 const dummy = {label:"", value:""};
@@ -10,8 +10,8 @@ function ControlPanel({ depts }) {
     const [getDept, setDept] = useState(dummy);
     const [getClasses, setClasses] = useState([]);
     const [getClass, setClass] = useState(dummy);
-    const [getTerm, setTerm] = useState(dummy);
-    const [getTerms, setTerms] = useState(dummy);
+    const [getSes, setSes] = useState(dummy);
+    const [getSessions, setSessions] = useState(dummy);
 
     console.log(depts);
 
@@ -24,19 +24,19 @@ function ControlPanel({ depts }) {
                 handleChangeClass(classes[0])
             } else {
                 setClass(dummy)
-                setTerms([])
-                setTerm(null)
+                setSessions([])
+                setSes(null)
             }
         })
     };
 
     const handleChangeClass = selectedOption => {
         //api call here
-        let termsList = generateTerms(selectedOption.label);
+        let termsList = generateTerms(selectedOption.detail);
         console.log("**************")
         console.log(termsList);
-        setTerms(termsList);
-        setTerm(termsList[0] ? termsList[0] : dummy)
+        setSessions(termsList);
+        setSes(termsList[0] ? termsList[0] : dummy)
 
         console.log(selectedOption);
         setClass(selectedOption);
@@ -44,7 +44,7 @@ function ControlPanel({ depts }) {
 
     const handleChangeTerm = selectedOption => {
         console.log(selectedOption);
-        setTerm(selectedOption);
+        setSes(selectedOption);
     };
 
     if (getDept === dummy  && depts.length > 0) {
@@ -66,14 +66,14 @@ function ControlPanel({ depts }) {
             handleChange={handleChangeClass}
         />
         <Selection
-            options={getTerms}
-            selected={getTerm}
+            options={getSessions}
+            selected={getSes}
             show={true}
             handleChange={handleChangeTerm}
         />
         <Submission
-            CRN = { getTerm ? getTerm.value.crn : ""}
-            term = {getTerm ? getTerm.value.term_code : ""}
+            CRN = { getSes ? getSes.value.crn : ""}
+            term = {getSes ? getSes.value.term_code : ""}
             show = {true}
         />
     </div>

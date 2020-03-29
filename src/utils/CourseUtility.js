@@ -11,7 +11,7 @@ const getDeptClasses = async (dept) => {
         let longTitle = courseObject["longTitle"];
         let combined = subject + " " + number + " // " + longTitle;
         console.log(combined);
-        return { label: combined, value: combined }
+        return { label: combined, value: combined, detail: courseObject}
     });
 }
 
