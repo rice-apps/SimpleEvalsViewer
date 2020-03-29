@@ -10,6 +10,7 @@ const dummy = {label:"", value:""};
 function ControlPanel({ depts }) {
   const [getDept, setDept] = useState(dummy);
   const [getClasses, setClasses] = useState([]);
+  const [getClassesDetail, setClassesDetail] = useState([]);
   const [getClass, setClass] = useState(dummy);
   const [getTerm, setTerm] = useState(dummy);
   const [getTerms, setTerms] = useState(dummy);
@@ -21,8 +22,11 @@ function ControlPanel({ depts }) {
     setDept(selectedOption);
     let classes = getDeptClasses(selectedOption.label)
     getDeptClasses(selectedOption.label)
-    .then(classes => {
-        setClasses(classes)
+    .then(result => {
+        let classes = result.classes;
+        let detail = result.detail;
+        setClasses(classes);
+        setClassesDetail(detail);
         if (classes.length){
           handleChangeClass(classes[0])
         } else {
@@ -36,7 +40,8 @@ function ControlPanel({ depts }) {
   const handleChangeClass = selectedOption => {
 
     //api call here
-   
+    console.log(getClassesDetail);
+    
     let termsList = generateTerms(selectedOption.label);
     console.log("**************")
     console.log(termsList);

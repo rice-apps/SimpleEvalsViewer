@@ -17,14 +17,20 @@ const getDeptClasses = async (dept) => {
     let result = await response.json();
     console.log(result);
 
-    return result.map(courseObject => {
+    let classes = result.map(courseObject => {
         let subject = courseObject["subject"];
         let number = courseObject["courseNum"];
         let longTitle = courseObject["longTitle"];
         let combined = subject + " " + number + " // " + longTitle;
         console.log(combined);
-        return { label: combined, value: combined }
+        return { label: combined, value: combined, detail: courseObject }
     });
+
+    let detail = result;
+    return {
+        classes,
+        detail
+    };
 
     // Fetch courses by subject
 
